@@ -1,7 +1,4 @@
-// export default function SignupPage() {
-//   return <h1>This is the Signup Page</h1>;
-// }
-"use client"; // Important for client-side interactivity in Next.js 13 app directory
+"use client";
 
 import { useState } from "react";
 import axios from "axios";
@@ -15,43 +12,74 @@ export default function SignupPage() {
 
   const [message, setMessage] = useState("");
 
-  // Update input values
   function handleChange(e) {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   }
 
-  // Submit signup form
   async function handleSubmit(e) {
     e.preventDefault();
 
     try {
-      const response = await axios.post(
-        `${process.env.NEXT_PUBLIC_API_BASE_URL}/register/`, // Adjust this URL to your Django signup endpoint
-        formData
-      );
-
-      setMessage("Signup successful! Please log in.");
+      await axios.post(`${process.env.NEXT_PUBLIC_API_BASE_URL}/register/`, formData);
+      setMessage("✅ Signup successful! You can now log in.");
     } catch (error) {
-      setMessage("Signup failed: " + (error.response?.data?.detail || error.message));
+      setMessage("❌ Signup failed: " + (error.response?.data?.detail || error.message));
     }
   }
 
   return (
-    <div style={{ maxWidth: "400px", margin: "auto" }}>
-      <h2>Sign Up</h2>
-      <form onSubmit={handleSubmit}>
-        <label>Username</label>
-        <input name="username" value={formData.username} onChange={handleChange} required />
+    <div className="min-h-screen flex items-center justify-center bg-gray-100 px-4">
+      <div className="w-full max-w-md bg-white p-6 rounded-lg shadow-md">
+        <h2 className="text-2xl font-semibold text-center mb-6">Create an Account</h2>
 
-        <label>Email</label>
-        <input type="email" name="email" value={formData.email} onChange={handleChange} required />
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <div>
+            <label className="block text-sm font-medium mb-1">Username</label>
+            <input
+              name="username"
+              value={formData.username}
+              onChange={handleChange}
+              required
+              className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+          </div>
 
-        <label>Password</label>
-        <input type="password" name="password" value={formData.password} onChange={handleChange} required />
+          <div>
+            <label className="block text-sm font-medium mb-1">Email</label>
+            <input
+              type="email"
+              name="email"
+              value={formData.email}
+              onChange={handleChange}
+              required
+              className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+          </div>
 
-        <button type="submit">Sign Up</button>
-      </form>
-      <p>{message}</p>
+          <div>
+            <label className="block text-sm font-medium mb-1">Password</label>
+            <input
+              type="password"
+              name="password"
+              value={formData.password}
+              onChange={handleChange}
+              required
+              className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+          </div>
+
+          <button
+            type="submit"
+            className="w-full bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700 transition"
+          >
+            Sign Up
+          </button>
+        </form>
+
+        {message && (
+          <p className="mt-4 text-center text-sm text-gray-700">{message}</p>
+        )}
+      </div>
     </div>
   );
 }

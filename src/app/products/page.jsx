@@ -10,7 +10,7 @@ export default function ProductsPage() {
   useEffect(() => {
     async function fetchProducts() {
       try {
-        const response = await axios.get(`${process.env.NEXT_PUBLIC_API_BASE_URL}/products`);
+        const response = await axios.get(`${process.env.NEXT_PUBLIC_API_BASE_URL}/products/`);
         setProducts(response.data);
       } catch (error) {
         console.error('Error fetching products:', error);
