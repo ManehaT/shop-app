@@ -36,9 +36,17 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-100 px-4">
+    <div className="flex items-center justify-center min-h-screen bg-pink-100 px-4">
       <div className="bg-white p-8 rounded-2xl shadow-xl w-full max-w-md">
-        <h2 className="text-2xl font-bold mb-6 text-center">Login</h2>
+        {/* <h2 className="text-2xl font-bold mb-6 text-center">Login</h2> */}
+        <h2
+          className="text-6xl mb-6 text-center text-pink-600"
+          style={{ fontFamily: "'Cookie', cursive" }}
+        >
+          Login
+        </h2>
+
+
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
             <label htmlFor="username" className="block text-sm font-medium text-gray-700">
@@ -67,13 +75,13 @@ export default function LoginPage() {
               onChange={handleChange}
               required
               className="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-xl shadow-sm focus:ring-blue-500 focus:border-blue-500"
-              placeholder="••••••••"
+              placeholder="Enter your password"
             />
           </div>
 
           <button
             type="submit"
-            className="w-full bg-blue-600 text-white py-2 rounded-xl hover:bg-blue-700 transition duration-200"
+            className="w-full bg-pink-600 text-white py-2 rounded-xl hover:bg-pink-400 transition duration-200"
           >
             Sign In
           </button>

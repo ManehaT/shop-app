@@ -8,6 +8,7 @@ export default function SignupPage() {
     username: "",
     email: "",
     password: "",
+    password2: "",
   });
 
   const [message, setMessage] = useState("");
@@ -19,19 +20,28 @@ export default function SignupPage() {
   async function handleSubmit(e) {
     e.preventDefault();
 
+    if (formData.password !== formData.password2) {
+      setMessage("Passwords do not match");
+      return;
+    }
+
     try {
       await axios.post(`${process.env.NEXT_PUBLIC_API_BASE_URL}/register/`, formData);
-      setMessage("✅ Signup successful! You can now log in.");
+      setMessage("Signup successful! You can now log in :)");
     } catch (error) {
-      setMessage("❌ Signup failed: " + (error.response?.data?.detail || error.message));
+      setMessage("Signup failed: " + (error.response?.data?.detail || error.message));
     }
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100 px-4">
+    <div className="min-h-screen flex items-center justify-center bg-pink-100 px-4">
       <div className="w-full max-w-md bg-white p-6 rounded-lg shadow-md">
-        <h2 className="text-2xl font-semibold text-center mb-6">Create an Account</h2>
-
+        {/* <h2 className="text-2xl font-semibold text-center mb-6">Create an Account</h2> */}
+        <h2
+          className="text-6xl mb-6 text-center text-pink-600"
+          style={{ fontFamily: "'Cookie', cursive" }}
+          >Create an Account
+        </h2>
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
             <label className="block text-sm font-medium mb-1">Username</label>
@@ -68,9 +78,21 @@ export default function SignupPage() {
             />
           </div>
 
+          <div>
+            <label className="block text-sm font-medium mb-1">Confirm Password</label>
+            <input
+              type="password"
+              name="password2"
+              value={formData.password2}
+              onChange={handleChange}
+              required
+              className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+          </div>
+
           <button
             type="submit"
-            className="w-full bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700 transition"
+            className="w-full bg-pink-600 text-white py-2 rounded-md hover:bg-blue-700 transition"
           >
             Sign Up
           </button>
