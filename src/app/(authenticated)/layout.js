@@ -19,7 +19,9 @@ export default function AuthenticatedLayout({ children }) {
   return (
     <div className="min-h-screen flex flex-col bg-pink-50">
       <header className="bg-pink-600 text-white p-4 flex justify-between items-center shadow-md">
-        <h1 className="text-5xl font-bold" style={{ fontFamily: "'Cookie', cursive" }}>
+        <h1 
+          onClick={() => router.push('/home')}
+          className="text-5xl font-bold" style={{ fontFamily: "'Cookie', cursive" }}>
           My Shop
         </h1>
         <div className="flex space-x-4">
