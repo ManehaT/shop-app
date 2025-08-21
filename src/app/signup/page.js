@@ -1,9 +1,11 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import axios from "axios";
 
 export default function SignupPage() {
+  const router = useRouter(); // <- added
   const [formData, setFormData] = useState({
     username: "",
     email: "",
@@ -27,7 +29,8 @@ export default function SignupPage() {
 
     try {
       await axios.post(`${process.env.NEXT_PUBLIC_API_BASE_URL}/register/`, formData);
-      setMessage("Signup successful! You can now log in :)");
+      setMessage("Signup successful! Redirecting to login...");
+      router.push("/login"); // <- added
     } catch (error) {
       setMessage("Signup failed: " + (error.response?.data?.detail || error.message));
     }
@@ -36,12 +39,13 @@ export default function SignupPage() {
   return (
     <div className="min-h-screen flex items-center justify-center bg-pink-100 px-4">
       <div className="w-full max-w-md bg-white p-6 rounded-lg shadow-md">
-        {/* <h2 className="text-2xl font-semibold text-center mb-6">Create an Account</h2> */}
         <h2
           className="text-6xl mb-6 text-center text-pink-600"
           style={{ fontFamily: "'Cookie', cursive" }}
-          >Create an Account
+        >
+          Create an Account
         </h2>
+
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
             <label className="block text-sm font-medium mb-1">Username</label>
@@ -101,6 +105,17 @@ export default function SignupPage() {
         {message && (
           <p className="mt-4 text-center text-sm text-gray-700">{message}</p>
         )}
+
+        {/* Added minimal login link */}
+        <p className="mt-4 text-center text-sm text-gray-600">
+          Already have an account?{" "}
+          <button
+            className="text-blue-600 hover:underline"
+            onClick={() => router.push("/login")}
+          >
+            Login
+          </button>
+        </p>
       </div>
     </div>
   );

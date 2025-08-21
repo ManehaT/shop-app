@@ -20,6 +20,7 @@ export default function LoginPage() {
       const token = res.data.token;
       // saving token in local storage
       localStorage.setItem('authToken', token);
+      localStorage.setItem('user', formData.username)
      // Make axios send token for all future requests
       axios.defaults.headers.common['Authorization'] = `Token ${token}`;
 
