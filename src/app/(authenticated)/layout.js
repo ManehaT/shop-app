@@ -10,7 +10,7 @@ export default function AuthenticatedLayout({ children }) {
 
   useEffect(() => {
     // Ensure localStorage access only on client side
-    const storedUsername = localStorage.getItem("username") || "User";
+    const storedUsername = localStorage.getItem("user") || "User";
     setUsername(storedUsername);
   }, []);
 

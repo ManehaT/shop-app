@@ -3,40 +3,34 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-
 export default function ProductsPage() {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
   const [token, setToken] = useState("");
-
   // Load token 
   useEffect(() => {
     const storedToken = localStorage.getItem("authToken");
     setToken(storedToken || "");
   }, []);
-
   // Fetch products once token is loaded
   useEffect(() => {
     if (token) {
       fetchProducts(""); // empty string triggers recent search logic
     }
   }, [token]);
-
   const fetchProducts = async (query = "") => {
     try {
       setLoading(true);
       const endpoint = query
         ? `${process.env.NEXT_PUBLIC_API_BASE_URL}/search?q=${query}`
         : `${process.env.NEXT_PUBLIC_API_BASE_URL}/products/`;
-
       const response = await axios.get(endpoint, {
         headers: {
           'Authorization': `Token ${token}`
         }
       });
-
       setProducts(
         query
           ? response.data.results.map(product => ({
@@ -54,12 +48,10 @@ export default function ProductsPage() {
       setLoading(false);
     }
   };
-
   const handleSearch = (e) => {
     e.preventDefault();
     fetchProducts(searchTerm);
   };
-
   const addToWishlist = async (product_id) => {
     try {
       await axios.post(
@@ -78,11 +70,9 @@ export default function ProductsPage() {
       toast.error("Failed to add to wishlist :(");
     }
   };
-
   return (
     <div className="max-w-7xl mx-auto px-4 py-8">
       <h1 className="text-3xl font-bold mb-4">Home Page</h1>
-
       {/* Search */}
       <form onSubmit={handleSearch} className="flex mb-8">
         <input
@@ -105,7 +95,6 @@ export default function ProductsPage() {
           Search
         </button>
       </form>
-
       {/* Products */}
       {loading ? (
         <p className="p-4 text-center">Loading products...</p>
@@ -119,7 +108,6 @@ export default function ProductsPage() {
             <div
               key={product.id || index}
               className={`border rounded-lg p-2 shadow flex flex-col transform transition duration-300 hover:scale-105 hover:shadow-lg ${index === 0 ? 'hidden' : ''}`}
-
               // className={`border rounded-lg p-2 shadow flex flex-col ${index === 0 ? 'hidden' : ''}`}
             >
               <img
